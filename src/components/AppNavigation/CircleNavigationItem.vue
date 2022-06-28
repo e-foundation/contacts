@@ -35,16 +35,28 @@
 			<ActionButton
 				v-if="circle.canManageMembers"
 				:close-after-click="true"
-				icon="icon-add"
 				@click="addMemberToCircle">
+				<template #icon>
+					<IconAdd
+						:size="20" />
+				</template>
 				{{ t('contacts', 'Add member') }}
 			</ActionButton>
 
 			<!-- copy circle link -->
 			<ActionLink
 				:href="circleUrl"
-				:icon="copyLinkIcon"
 				@click.stop.prevent="copyToClipboard(circleUrl)">
+				<!-- TODO Change the IconLoading into the proper loading one once new vue is released, icon-loading -->
+				<template #icon>
+					<IconCheck v-if="copySuccess"
+						:size="20" />
+					<IconLoading v-if="copyLoading"
+						:size="20" />
+					<IconLink v-else
+						:size="20" />
+				</template>
+
 				{{ copyButtonText }}
 			</ActionLink>
 
@@ -72,8 +84,11 @@
 			<!-- delete circle -->
 			<ActionButton
 				v-if="circle.canDelete"
-				icon="icon-delete"
 				@click="confirmDeleteCircle">
+				<template #icon>
+					<IconDelete
+						:size="20" />
+				</template>
 				{{ t('contacts', 'Delete circle') }}
 			</ActionButton>
 		</template>
@@ -91,6 +106,11 @@ import ActionText from '@nextcloud/vue/dist/Components/ActionText'
 import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ExitToApp from 'vue-material-design-icons/ExitToApp'
+import IconAdd from 'vue-material-design-icons/Plus'
+import IconLink from 'vue-material-design-icons/Link'
+import IconCheck from 'vue-material-design-icons/Check'
+import IconLoading from 'vue-material-design-icons/Refresh'
+import IconDelete from 'vue-material-design-icons/Delete'
 import LocationEnter from 'vue-material-design-icons/LocationEnter'
 
 import Circle from '../../models/circle.ts'
@@ -106,6 +126,11 @@ export default {
 		AppNavigationCounter,
 		AppNavigationItem,
 		ExitToApp,
+		IconAdd,
+		IconLink,
+		IconCheck,
+		IconLoading,
+		IconDelete,
 		LocationEnter,
 	},
 
@@ -116,6 +141,12 @@ export default {
 			type: Circle,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			copyLoading: false,
+			copySuccess: false,
+		}
 	},
 
 	computed: {
