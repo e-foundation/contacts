@@ -46,17 +46,8 @@
 			<!-- copy circle link -->
 			<ActionLink
 				:href="circleUrl"
+				:icon="copyLinkIcon"
 				@click.stop.prevent="copyToClipboard(circleUrl)">
-				<!-- TODO Change the IconLoading into the proper loading one once new vue is released, icon-loading -->
-				<template #icon>
-					<IconCheck v-if="copySuccess"
-						:size="20" />
-					<IconLoading v-if="copyLoading"
-						:size="20" />
-					<IconLink v-else
-						:size="20" />
-				</template>
-
 				{{ copyButtonText }}
 			</ActionLink>
 
@@ -107,9 +98,6 @@ import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCo
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ExitToApp from 'vue-material-design-icons/ExitToApp'
 import IconAdd from 'vue-material-design-icons/Plus'
-import IconLink from 'vue-material-design-icons/Link'
-import IconCheck from 'vue-material-design-icons/Check'
-import IconLoading from 'vue-material-design-icons/Refresh'
 import IconDelete from 'vue-material-design-icons/Delete'
 import LocationEnter from 'vue-material-design-icons/LocationEnter'
 
@@ -127,9 +115,6 @@ export default {
 		AppNavigationItem,
 		ExitToApp,
 		IconAdd,
-		IconLink,
-		IconCheck,
-		IconLoading,
 		IconDelete,
 		LocationEnter,
 	},
@@ -141,12 +126,6 @@ export default {
 			type: Circle,
 			required: true,
 		},
-	},
-	data() {
-		return {
-			copyLoading: false,
-			copySuccess: false,
-		}
 	},
 
 	computed: {
